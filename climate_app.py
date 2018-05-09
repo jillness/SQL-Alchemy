@@ -7,35 +7,19 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 from flask import Flask, jsonify
 
-#################################################
-# Database Setup
-#################################################
-
-# Create engine to hawaii.sqlite
 engine = create_engine("sqlite:///hawaii.sqlite")
 
-# Declare a Base
 Base = automap_base()
 
-# Reflect the database tables
 Base.prepare(engine, reflect=True)
 
-# Create variables for classes
 Measurement = Base.classes.measurements
 Station = Base.classes.stations
 
-# Create session
 session = Session(engine)
-
-#################################################
-# Flask Setup
-#################################################
 
 app = Flask(__name__)
 
-#################################################
-# Flask Routes
-#################################################
 
 @app.route("/")
 def welcome():
@@ -83,7 +67,7 @@ def stations():
     
 @app.route("/api/v1.0/tobs")
 def tobs():
-    """Return a list of all temperature observations for the previous year"""
+    """Return a list of all temperature observations (tobs) for the previous year"""
     last_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     tobs_year = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date > last_year\
                                                                         ).order_by(Measurement.date).all()
