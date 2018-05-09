@@ -1,4 +1,3 @@
-# Dependencies
 import pandas as pd
 import sqlalchemy
 import datetime as dt
